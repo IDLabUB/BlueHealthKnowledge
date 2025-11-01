@@ -29,8 +29,8 @@ def load_and_display_counts(file_path):
     return counts, data_df
 
 # Definim els camins dels fitxers per a activitats i mètriques d'exposició
-activities_file = './counts/counts_blue_health_activities.p'
-exposure_file = './counts/counts_blue_health_exposure_metrics.p'
+activities_file = './data/counts/counts_blue_health_activities.p'
+exposure_file = './data/counts/counts_blue_health_exposure_metrics.p'
 
 print("=== Loading blue-health activity counts ===")
 activities_counts, activities_df = load_and_display_counts(activities_file)

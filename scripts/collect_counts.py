@@ -4,8 +4,6 @@ warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 """Script to run counts collection for BlueHealthKnowledge factors and associations."""
 
-from pathlib import Path
-
 from lisc import Counts
 from lisc.utils import save_object, load_api_key
 import os

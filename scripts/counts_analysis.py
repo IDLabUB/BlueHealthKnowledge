@@ -18,11 +18,9 @@ from lisc.utils import load_object
 # Configuration settings
 
 # Directories and file names for loading the counts object and term files
-TERM_DIR = Path('./terms')             # Directory for the term files (not directly used here)
-COUNTS_DIR = Path('./counts')          # Counts directory without the legacy ``data/`` prefix
+TERM_DIR = './terms'             # Directory for the term files (not directly used here)
+DB_NAME = './data'               # Database directory where the counts object is stored
 COG_F_NAME = 'counts_blue_health_activities'   # File name (without extension) for the blue-health activity counts object
-
-COUNTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Parameters for analysis
 N_TERMS = 3   # Number of top associations to extract for each term
@@ -59,7 +57,7 @@ def main():
     cog_scores_df = pd.DataFrame(cog_counts.score,
                                  index=cog_counts.terms['A'].labels,
                                  columns=cog_counts.terms['B'].labels)
-    cog_csv_path = counts_summary_path / 'blue_health_activity_scores.csv'
+    cog_csv_path = os.path.join(counts_summary_path, 'blue_health_activity_scores.csv')
     cog_scores_df.to_csv(cog_csv_path)
     print("Blue-health activity scores exported to:", os.path.abspath(cog_csv_path))
     
