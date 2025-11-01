@@ -1,42 +1,32 @@
-# Terms Lists
+# BlueHealthKnowledge Term Resources
 
-This sub-folder contains a collection of terms lists used for the project.
+This directory collects the text resources that power the BlueHealthKnowledge literature searches and downstream analyses. Each file supplies a curated set of synonyms that describe how marine environments interact with human health and wellbeing.
 
-For an overview of the search terms that were used, and brief descriptions, see
-[this notebook](https://github.com/ERPscanr/ERPscanr/blob/main/notebooks/01-SearchTerms.ipynb).
+For a guided tour of how these vocabularies are used during data collection, open the [01-SearchTerms notebook](../notebooks/01-SearchTerms.ipynb) in this repository.
 
-### ERP Terms
+## Blue-health wellbeing factors
 
-The following files relate to term definitions and metadata about the ERP components included in this project.
+- `blue_health_factors.txt` &mdash; the comprehensive catalogue of marine-linked wellbeing factors and outcome terms.
+- `blue_health_factor_labels.txt` &mdash; short human-readable labels for the factors list that keep figures and tables tidy.
 
-- `riskfactors.txt` contains a list of risk factors related to violence terms and synonyms
-- `erp_labels.txt` contains a list of labels that are used for each ERP term
-- `erps_exclude.txt` contains a list of customized exclusion terms used for each ERP term
-- `latencies.txt` contains a list of canonical latencies for each ERP term
+## Exposure metrics and activity pathways
 
-Note that each of the ERP files should have the same number of lines, and each line index relates to the same ERP across files.
-Blank lines indicate that there is no entry for the current ERP.
+- `blue_health_exposure_metrics.txt` &mdash; measures of proximity, contact, quality, and other exposure routes to blue spaces.
+- `blue_health_activities.txt` &mdash; activities people undertake in marine settings, from contemplative engagement to high-exertion sports.
 
-### Association Terms
+## ERP resources
 
-The following lists relate to association terms:
+- `erp_labels.txt` &mdash; labels used for each ERP term.
+- `erps_exclude.txt` &mdash; customized exclusion terms for each ERP.
+- `latencies.txt` &mdash; canonical latencies for each ERP.
 
-- `violence.txt` contains a list of the violence association terms
-- `disease.txt` contains a list of the disease association terms
+Each ERP-related file should contain the same number of lines, with matching indices referring to the same ERP. Blank lines indicate there is no entry for that ERP in the given file.
 
-### Dropped Terms
+## Additional analysis lists
 
-The following lists contain ERPs that were initially considered but ultimately dropped from the project.
+- `analysis_exclusions.txt` &mdash; general terms excluded from the analysis of common keywords, words, and similar outputs.
+- `disease.txt` &mdash; association terms covering disease outcomes of interest.
+- `dropped_erps.txt` &mdash; ERPs dropped for having too few results (but returning at least one hit).
+- `sensory_erps.txt` &mdash; ERPs with canonical latencies below 100 ms that were excluded from the analyses.
 
-- `dropped_erps.txt` contains a list of ERPs that were dropped due to having too few results
-    - These ERPs return at least 1 result, but were dropped for being too rare (<10 results)
-- `sensory_erps.txt`
-    - There ERPs have canonical latencies less than 100 ms (early sensory responses) and were not included
-
-Note that dropped terms were removed prior to data collection, and so are not included in the collected dataset.
-
-### Analysis Related Lists
-
-The following lists contain lists of terms that were used during the analysis (post data collection).
-
-- `analysis_exclusions.txt` a list of general terms that are excluded from analysis of common keywords, words, etc
+These resources are referenced throughout the data collection scripts in `scripts/` and the analysis notebooks in `notebooks/`. When adding new terms, keep the comma-separated format (canonical term followed by synonyms) so existing parsers continue to work.
