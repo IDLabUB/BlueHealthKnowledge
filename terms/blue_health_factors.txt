@@ -1,0 +1,60 @@
+mental health, psychological health, mental wellbeing, psychological wellbeing, subjective wellbeing, SWB, quality of life, QoL, life satisfaction, happiness
+affect balance, positive affect, negative affect, mood, hedonic tone, eudaimonic wellbeing, vitality
+psychological distress, distress, general distress, K10, GHQ-12
+perceived stress, stress, PSS, tension, strain
+anxiety, generalized anxiety, GAD, GAD-7, state anxiety, trait anxiety, STAI
+depression, depressive symptoms, PHQ-9, CES-D, BDI, low mood, anhedonia
+rumination, worry, brooding, repetitive negative thinking
+post-traumatic stress, PTSD symptoms, IES-R, PCL, trauma symptoms
+fear of water, aquaphobia, water-related anxiety
+resilience, psychological resilience, hardiness, grit
+self-esteem, global self-worth
+self-efficacy, perceived competence, coping self-efficacy
+mindfulness, present-moment awareness, MAAS
+nature connectedness, nature relatedness, NR, inclusion of nature in self, INS
+awe, fascination, soft fascination, restorative experiences, restoration
+attention restoration, mental fatigue recovery, directed attention
+sleep quality, sleep, insomnia symptoms, sleep duration, sleep disturbance
+social wellbeing, social support, social cohesion, belonging, loneliness, social connection, social participation, inclusion
+pro-environmental behavior, environmental stewardship, coastal stewardship
+cognitive function, cognition, cognitive performance, reaction time, information processing
+executive function, cognitive control, inhibition, shifting, working memory
+memory, short-term memory, long-term memory, recall, recognition
+attention, sustained attention, selective attention, vigilance
+creativity, divergent thinking, insight problem solving
+neurocognitive development, neurodevelopment, cognitive development, IQ
+headache, migraine frequency, migraine
+heart rate, cardiovascular reactivity, HR, heart-rate variability, HRV, vagal tone, RMSSD, LF/HF
+blood pressure, systolic blood pressure, SBP, diastolic blood pressure, DBP, hypertension
+cortisol, salivary cortisol, CAR, diurnal slope, alpha-amylase
+inflammation, inflammatory markers, CRP, interleukins, IL-6, TNF-alpha
+immune function, immune biomarkers, NK cell activity, salivary IgA
+endocrine markers, thyroid function, TSH, T3, T4
+metabolic health, glucose metabolism, fasting glucose, insulin, HOMA-IR
+lipids, lipid profile, cholesterol, HDL, LDL, triglycerides
+body mass index, BMI, obesity, adiposity, waist circumference
+physical activity, MVPA, steps per day, accelerometry-derived activity
+fitness, cardiorespiratory fitness, VO2max, 6-minute walk test, CRF
+thermoregulation, cold adaptation, brown adipose activity (proxy), cold tolerance
+respiratory symptoms, wheeze, cough, dyspnea, shortness of breath
+respiratory health, asthma, COPD, lung function, FEV1, FVC, PEF
+dermatological condition, skin condition, eczema, dermatitis, psoriasis, acne, wound healing, skin regeneration, sunburn
+otitis externa, swimmer's ear, ear infection (external)
+gastrointestinal illness, GI illness, gastroenteritis, diarrhea, vomiting, abdominal pain
+infection, infectious disease, marine microbial infection, viral infection, bacterial infection, Vibrio infection, norovirus, shellfish poisoning, hepatitis (waterborne)
+neurological condition, neurotoxicity, neurobehavioral outcomes, attention-deficit symptoms
+decompression sickness, DCS, barotrauma (ear/sinus), nitrogen narcosis (diving-related)
+motion sickness, seasickness, nausea, vertigo
+musculoskeletal pain, back pain, neck pain, shoulder pain, injury-related pain, chronic pain
+physical function, mobility, balance, falls risk, gait stability
+cancer risk, carcinogenesis, skin cancer risk (UV at beach), biomarkers of cancer risk
+pregnancy outcomes, adverse birth outcomes, birthweight, low birth weight, preterm birth, small for gestational age
+fertility, fecundability, time to pregnancy
+mortality, all-cause mortality, cause-specific mortality, drowning mortality
+general health, perceived health, self-rated health, SRH, health status, functional status, SF-12 mental, SF-12 physical
+healthcare use, primary care visits, hospital admissions, prescriptions, antidepressant prescriptions
+work outcomes, work capacity, productivity, absenteeism, presenteeism
+sports recovery, delayed onset muscle soreness, DOMS, creatine kinase, CK, perceived recovery (CWI-related)
+place attachment, coastal place attachment, sense of place
+connectedness to others, group cohesion, team bonding (sailing/rowing)
+self-transcendence, meaning in life, purpose, eudaimonia
