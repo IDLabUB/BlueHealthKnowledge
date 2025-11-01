@@ -1,4 +1,4 @@
-# """Script to run words collection for the ViolentRiskFactors project."""
+# """Script to run words collection for the BlueHealthKnowledge project."""
 
 import os
 import pickle
@@ -13,7 +13,7 @@ from lisc.utils import SCDB, save_object, load_api_key
 TEST = False
 
 # Set label for collection
-LABEL = 'riskfactors'
+LABEL = 'blue_health_factors'
 
 # Set locations / names for loading files
 # (Comprova que aquestes rutes siguin correctes segons la teva estructura de carpetes)
@@ -49,9 +49,9 @@ def main():
         words.add_terms([['P100'], ['N100']])
         words.add_terms([['protein'], ['protein']], term_type='exclusions')
     else:
-        words.add_terms('riskfactors.txt', directory=TERMS_DIR)
+        words.add_terms('blue_health_factors.txt', directory=TERMS_DIR)
         words.add_terms('erps_exclude.txt', term_type='exclusions', directory=TERMS_DIR)
-        words.add_labels('riskfactor_labels.txt', directory=TERMS_DIR)
+        words.add_labels('blue_health_factor_labels.txt', directory=TERMS_DIR)
 
     print('\n\nRUNNING WORDS COLLECTION')
 

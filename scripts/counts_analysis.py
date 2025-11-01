@@ -1,7 +1,7 @@
 """
 Run analysis on collected words data.
 
-This script loads the pre-computed counts object for "counts_violence",
+This script loads the pre-computed counts object for the blue-health activity associations,
 processes the data by dropping low-frequency components and normalizing scores,
 and then extracts the top associations between terms. The results are saved as JSON files,
 and the full normalized score matrix is exported as a CSV file with summary statistics printed.
@@ -18,8 +18,9 @@ from lisc.utils import SCDB, load_object
 
 # Directories and file names for loading the counts object and term files
 TERM_DIR = './terms'             # Directory for the term files (not directly used here)
-DB_NAME = './data'               # Database directory where the counts object is stored
-COG_F_NAME = 'words_riskfactors'   # File name (without extension) for the counts_violence object
+# Use the project root (".") so SCDB resolves to ./data/ and finds the counts saved by collect_counts.py
+DB_NAME = '.'
+COG_F_NAME = 'counts_blue_health_activities'   # File name (without extension) for the blue-health activity counts object
 
 # Parameters for analysis
 N_TERMS = 3   # Number of top associations to extract for each term
@@ -45,7 +46,7 @@ def main():
     for path in [counts_summary_path, counts_assocs_path]:
         os.makedirs(path, exist_ok=True)
     
-    # Load the counts object for "counts_violence".
+    # Load the counts object for blue-health activities.
     # This object contains co-occurrence scores and term labels.
     print("Looking for the file at:", db.paths['counts'])
     cog_counts = load_object(COG_F_NAME, directory=db)
@@ -60,12 +61,12 @@ def main():
     cog_scores_df = pd.DataFrame(cog_counts.score,
                                  index=cog_counts.terms['A'].labels,
                                  columns=cog_counts.terms['B'].labels)
-    cog_csv_path = os.path.join(counts_summary_path, 'violence_scores.csv')
+    cog_csv_path = os.path.join(counts_summary_path, 'blue_health_activity_scores.csv')
     cog_scores_df.to_csv(cog_csv_path)
-    print("Violence scores exported to:", os.path.abspath(cog_csv_path))
+    print("Blue-health activity scores exported to:", os.path.abspath(cog_csv_path))
     
     # Print summary statistics for the score matrix.
-    print("\nSummary statistics for violence scores:")
+    print("\nSummary statistics for blue-health activity scores:")
     print(cog_scores_df.describe())
     
     # For each term in the 'A' dimension, extract the top associations
