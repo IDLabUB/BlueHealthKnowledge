@@ -5,7 +5,7 @@ warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 """Script to run counts collection for BlueHealthKnowledge factors and associations."""
 
 from lisc import Counts
-from lisc.utils import SCDB, save_object, load_api_key
+from lisc.utils import save_object, load_api_key
 import os
 
 ###################################################################################################
@@ -15,9 +15,12 @@ import os
 TEST = False
 
 # Set locations / names for loading files
-DB_NAME = '.'             # Use the project root so that SCDB crea la seva estructura interna correctament
 TERMS_DIR = './terms/'
 API_FILE = 'api_key.txt'
+
+# Directory for saving counts outputs without the legacy ``data/`` prefix
+COUNTS_DIR = Path('./counts')
+COUNTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Print absolute path for debugging (example: blue_health_factors.txt)
 print(os.path.abspath(os.path.join(TERMS_DIR, 'blue_health_factors.txt')))
@@ -33,7 +36,7 @@ if TEST:
 ###################################################################################################
 ###################################################################################################
 
-def run_counts_collection(label, db, api_key):
+def run_counts_collection(label, api_key):
     """
     Run counts collection for a given secondary term label.
     
@@ -62,19 +65,18 @@ def run_counts_collection(label, db, api_key):
     print('\n\nRUNNING COUNTS COLLECTION for:', label, '\n\n')
     counts.run_collection(db='pubmed', api_key=api_key, logging=LOGGING, verbose=VERBOSE)
     
-    # Desa l'objecte counts utilitzant només el nom (sense ruta completa) perquè SCDB ja gestiona la ruta interna.
-    save_object(counts, 'counts_' + label, db)
+    # Desa l'objecte counts a la nova carpeta ``./counts`` sense el prefix legacy ``data/``.
+    save_object(counts, 'counts_' + label, directory=COUNTS_DIR)
     print('\n\nCOUNTS COLLECTION FINISHED for:', label, '\n\n')
 
 def main():
     # Inicialitza la base de dades i carrega l'API key
-    db = SCDB(DB_NAME)
     api_key = load_api_key(API_FILE)
     
     # Defineix els labels per als quals vols executar la col·lecció.
     # Executa la col·lecció per a totes les combinacions rellevants (activitats i mètriques d'exposició).
     for label in ['blue_health_activities', 'blue_health_exposure_metrics']:
-        run_counts_collection(label, db, api_key)
+        run_counts_collection(label, api_key)
 
 if __name__ == "__main__":
     main()

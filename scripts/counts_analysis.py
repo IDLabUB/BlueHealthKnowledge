@@ -8,10 +8,11 @@ and the full normalized score matrix is exported as a CSV file with summary stat
 """
 
 import os
+from pathlib import Path
 import json
 import numpy as np
 import pandas as pd
-from lisc.utils import SCDB, load_object
+from lisc.utils import load_object
 
 ###################################################################################################
 # Configuration settings
@@ -32,23 +33,19 @@ def main():
     
     print('\n\n ANALYZING COUNTS DATA \n\n')
     
-    # Initialize the database object using SCDB.
-    # This loads the directory structure and paths defined in DB_NAME.
-    db = SCDB(DB_NAME)
-    
     # Define the paths for saving the summary of counts and associations.
-    # These directories will be created inside the counts directory of the database.
-    counts_summary_path = os.path.join(db.paths['counts'], 'summary')
-    counts_assocs_path = os.path.join(db.paths['counts'], 'assocs')
-    
+    # These directories will be created inside the counts directory.
+    counts_summary_path = COUNTS_DIR / 'summary'
+    counts_assocs_path = COUNTS_DIR / 'assocs'
+
     # Create the summary and associations directories (recursively) if they do not already exist.
     for path in [counts_summary_path, counts_assocs_path]:
-        os.makedirs(path, exist_ok=True)
+        path.mkdir(parents=True, exist_ok=True)
     
     # Load the counts object for blue-health activities.
     # This object contains co-occurrence scores and term labels.
-    print("Looking for the file at:", db.paths['counts'])
-    cog_counts = load_object(COG_F_NAME, directory=db)
+    print("Looking for the file at:", COUNTS_DIR)
+    cog_counts = load_object(COG_F_NAME, directory=COUNTS_DIR)
     
     # Pre-process the counts object:
     # 1. Drop low-frequency items.
@@ -79,7 +76,7 @@ def main():
             top_assocs['top_assocs'].append(cog_counts.terms['B'][assoc].label)
     
         # Save the top associations for the current 'A' term in a JSON file.
-        summary_filepath = os.path.join(counts_summary_path, label + '.json')
+        summary_filepath = counts_summary_path / f"{label}.json"
         with open(summary_filepath, 'w') as outfile:
             json.dump(top_assocs, outfile)
     
@@ -90,7 +87,7 @@ def main():
         associations[label] = []
         for t_ind, assoc in zip(range(N_TERMS), np.flip(np.argsort(cog_counts.score[:, l_ind]))):
             associations[label].append(cog_counts.terms['A'][assoc].label)
-    assocs_filepath = os.path.join(counts_assocs_path, 'associations.json')
+    assocs_filepath = counts_assocs_path / 'associations.json'
     with open(assocs_filepath, 'w') as outfile:
         json.dump(associations, outfile)
     
