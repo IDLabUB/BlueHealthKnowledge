@@ -1,7 +1,8 @@
 # BlueHealthKnowledge
 [![Website](https://img.shields.io/badge/site-bluehealthknowledge.github.io-informational.svg)](https://bluehealthknowledge.github.io/)
 
-`BlueHealthKnowledge` project repository: knowledge base and automated analysis of the full spectrum of factors that connect the sea with physical and mental health and overall wellbeing.
+`BlueHealthKnowledge` project repository: a knowledge base and suite of automated analyses that catalogue every documented factor linking the sea to physical and mental health and overall wellbeing.
+The definitive project guidance is maintained directly on the repository's `main` branch so collaborators always reference and contribute to the canonical instructions here, rather than on temporary feature branches.
 
 ## Overview
 
