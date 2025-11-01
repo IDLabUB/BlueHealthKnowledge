@@ -18,8 +18,7 @@ from lisc.utils import SCDB, load_object
 
 # Directories and file names for loading the counts object and term files
 TERM_DIR = './terms'             # Directory for the term files (not directly used here)
-# Use the project root (".") so SCDB resolves to ./data/ and finds the counts saved by collect_counts.py
-DB_NAME = '.'
+DB_NAME = './data'               # Database directory where the counts object is stored
 COG_F_NAME = 'counts_blue_health_activities'   # File name (without extension) for the blue-health activity counts object
 
 # Parameters for analysis
