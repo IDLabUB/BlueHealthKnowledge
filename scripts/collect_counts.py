@@ -72,8 +72,8 @@ def main():
     api_key = load_api_key(API_FILE)
     
     # Defineix els labels per als quals vols executar la col·lecció.
-    # En aquest exemple, es podria executar la col·lecció per activitats o mètriques d'exposició.
-    for label in ['blue_health_factors']:
+    # Executa la col·lecció per a totes les combinacions rellevants (activitats i mètriques d'exposició).
+    for label in ['blue_health_activities', 'blue_health_exposure_metrics']:
         run_counts_collection(label, db, api_key)
 
 if __name__ == "__main__":
