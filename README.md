@@ -1,7 +1,7 @@
 # BlueHealthKnowledge
 [![Website](https://img.shields.io/badge/site-bluehealthknowledge.github.io-informational.svg)](https://bluehealthknowledge.github.io/)
 
-`BlueHealthKnowledge` project repository: knowledge base and automated analysis of factors that connect the sea with physical and mental health and overall wellbeing.
+`BlueHealthKnowledge` project repository: knowledge base and automated analysis of the full spectrum of factors that connect the sea with physical and mental health and overall wellbeing.
 
 ## Overview
 
@@ -9,21 +9,28 @@ Blue spaces such as seas and oceans are increasingly recognised for the restorat
 This project explores the breadth of scientific evidence on how marine environments influence physical health, mental health, and holistic wellbeing outcomes.
 We combine automated literature collection with targeted knowledge curation to catalogue protective, promotive, and risk factors linked to time spent in, on, or near the sea.
 
+In particular, we document how marine settings contribute to:
+
+- **Physical health pathways** such as opportunities for active transport, sport, and exposure to marine aerosols.
+- **Mental health pathways** including stress reduction, restoration, and pro-social interactions fostered by coastal spaces.
+- **Community wellbeing** through equitable access, cultural practices, blue-economy livelihoods, and climate resilience.
+
 The results of this project are hosted online on the [project website](https://osf.io/ats8c/).
 
 ## Project Guide
 
 The goal of this project is to map, analyse, and explain the factors that relate marine environments to human health and wellbeing.
 To achieve this, we manually curate a dictionary of blue-health factors that span environmental characteristics (for example water quality, biodiversity, accessibility), behavioural pathways (such as physical activity, social connection, and nature engagement), and health outcomes.
-This list of terms is available in the `terms` sub-folder and viewable in the `SearchTerms` notebook.
+We iteratively expand these terms to ensure comprehensive coverage of all documented links between the sea and human wellbeing, including emerging evidence on climate change, ecosystem services, and socio-economic determinants.
+This living list of terms is available in the `terms` sub-folder and viewable in the `SearchTerms` notebook.
 
 For data collection, this project uses two main approaches:
 - The 'Words' approach gathers text and metadata (e.g., authors, journals, keywords, and publication date) from all articles identified through blue-health search terms.
-  This data is used to build profiles of marine-related health factors.
+  This data is used to build profiles of marine-related health factors, highlight the intensity of research activity, and surface knowledge gaps.
 - The 'Count' approach collects data on the co-occurrence of sea-related terms and other pre-defined concepts of interest, including psychological, social, environmental, and policy dimensions.
-  This data is used to analyze patterns and relationships between different determinants of blue health.
+  This data is used to analyze patterns and relationships between different determinants of blue health and to prioritise combinations of factors for deeper qualitative synthesis.
 
-The project analyses trends in the literature to provide insights into how contact with the sea promotes or hinders physical and mental health, supports wellbeing, and mitigates inequalities.
+The project analyses trends in the literature to provide insights into how contact with the sea promotes or hinders physical and mental health, supports wellbeing, mitigates inequalities, and informs policy and practice interventions.
 
 You can explore the outputs of this project by visiting the [project website](https://osf.io/ats8c/), which features individual profiles of the examined blue-health factors and group-level analyses.
 
