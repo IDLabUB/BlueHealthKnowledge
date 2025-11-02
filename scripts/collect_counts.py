@@ -7,12 +7,15 @@ warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 from lisc import Counts
 from lisc.utils import save_object, load_api_key
 import os
+from typing import List
+from requests import RequestException
+import numpy as np
 
 ###################################################################################################
 # Configuration settings
 
 # Set whether to run a test run
-TEST = False
+TEST = os.environ.get('BLUEHEALTH_TEST_MODE', '0') == '1'
 
 # Set locations / names for loading files
 TERMS_DIR = './terms/'
@@ -60,7 +63,8 @@ def run_counts_collection(label, api_key):
         counts.add_labels('blue_health_factor_labels.txt', dim='A', directory=TERMS_DIR)
         # Per a la dimensió B, carreguem el fitxer que correspon al valor de "label"
         if label != 'erp':
-            counts.add_terms(label + '.txt', dim='B', directory=TERMS_DIR)
+            secondary_terms = _load_term_groups(Path(TERMS_DIR) / f'{label}.txt')
+            counts.add_terms(secondary_terms, dim='B')
     
     print('\n\nRUNNING COUNTS COLLECTION for:', label, '\n\n')
     counts.run_collection(db='pubmed', api_key=api_key, logging=LOGGING, verbose=VERBOSE)
