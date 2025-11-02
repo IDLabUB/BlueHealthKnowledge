@@ -1,0 +1,18 @@
+# METRIQUES D'EXPOSICIÓ (no ordenades per intensitat; 1 línia = terme canònic + sinònims)
+coastal residence, coastal proximity, distance to coast, distance to shoreline, distance to beach, coastal living
+blue space proximity, blue-space exposure, perceived proximity, euclidean distance to water
+amount of blue space, % blue space, blue space coverage, NDWI, normalized difference water index
+street-view blueness, blue view index, view of water, window view of water, waterscape view, VVI
+access to blue space, access to beach, access to coast, coastal accessibility, entrance points
+visit frequency to blue space, frequency of visits, time spent near water, duration of visits, visit duration
+water contact level, contact with water, body immersion, head immersion, face splashing, swallowing water, partial immersion, full immersion, cold water immersion, CWI
+bathing water quality, water quality, bathing water, enterococci, E. coli, microbial water quality, fecal contamination, sewage spill, storm overflow
+harmful algal blooms, HABs, marine biotoxins, ciguatoxins, saxitoxin, brevetoxin, algal bloom exposure
+marine microbes and parasites, Vibrio, Vibrio vulnificus, Vibrio parahaemolyticus, norovirus (marine), parasites (marine)
+chemical pollution (marine), marine chemical pollution, PCBs, PFAS, PFOS, PFOA, PAHs, pesticides, heavy metals, oil spill, hydrocarbon exposure
+plastic pollution, microplastics, nanoplastics, marine litter, beach litter
+sea spray aerosols, iodine-rich aerosols, sea breeze, coastal aerosols
+seafood consumption, fish consumption, shellfish consumption, fish intake, omega-3 intake, PUFA intake, EPA, DHA, marine-derived PUFAs
+occupational exposure (marine), fisheries workers, fishers, seafarers, merchant seamen, shipyard workers, offshore oil and gas workers, rig workers, coast guard, navy, lifeguards, marine conservation workers, shellfish harvesters, aquaculture workers, cruise ship staff, marine tourism workers
+blue prescriptions, blue prescription, social prescribing (coastal/marine)
+virtual blue exposure, VR ocean, virtual reality ocean, 360 ocean video, aquarium viewing (virtual)
