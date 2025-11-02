@@ -27,3 +27,6 @@ data/*
 
 # Ignore API key files
 api_key.txt
+
+# Ignore generated counts pickles
+counts/*.p
