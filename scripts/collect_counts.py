@@ -4,8 +4,6 @@ warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 """Script to run counts collection for BlueHealthKnowledge factors and associations."""
 
-from pathlib import Path
-
 from lisc import Counts
 from lisc.utils import save_object, load_api_key
 import os
@@ -27,6 +25,9 @@ API_FILE = 'api_key.txt'
 COUNTS_DIR = Path('./counts')
 COUNTS_DIR.mkdir(parents=True, exist_ok=True)
 
+# Print absolute path for debugging (example: blue_health_factors.txt)
+print(os.path.abspath(os.path.join(TERMS_DIR, 'blue_health_factors.txt')))
+
 # Set collection settings
 LOGGING = None
 VERBOSE = True
@@ -37,30 +38,6 @@ if TEST:
 
 ###################################################################################################
 ###################################################################################################
-
-def _load_term_groups(path: Path) -> List[List[str]]:
-    """Load a term file and return the term groups, skipping comments and blank lines."""
-
-    groups: List[List[str]] = []
-
-    with path.open('r', encoding='utf-8') as term_file:
-        for line in term_file:
-            stripped = line.strip()
-
-            if not stripped or stripped.lstrip().startswith('#'):
-                continue
-
-            groups.append([term.strip() for term in stripped.split(',') if term.strip()])
-
-    return groups
-
-
-def _load_labels(path: Path) -> List[str]:
-    """Load labels from a file, ignoring blank lines and comments."""
-
-    with path.open('r', encoding='utf-8') as label_file:
-        return [line.strip() for line in label_file if line.strip() and not line.lstrip().startswith('#')]
-
 
 def run_counts_collection(label, api_key):
     """
@@ -80,49 +57,18 @@ def run_counts_collection(label, api_key):
         # Exemple de prova amb uns termes fixos
         counts.add_terms([['Antisocial attitudes'], ['Unemployment'], ['Impulsivity']], dim='A')
         counts.add_terms([['coastal residence'], ['contemplation of water']], dim='B')
-        counts.counts = np.ones((counts.terms['A'].n_terms, counts.terms['B'].n_terms), dtype=int)
-        counts.terms['A'].counts = np.full(counts.terms['A'].n_terms, 200)
-        counts.terms['B'].counts = np.full(counts.terms['B'].n_terms, 200)
     else:
-        factor_terms = _load_term_groups(Path(TERMS_DIR) / 'blue_health_factors.txt')
-        counts.add_terms(factor_terms, dim='A')
-
-        exclusions_path = Path(TERMS_DIR) / 'erps_exclude.txt'
-        if exclusions_path.exists():
-            base_terms = factor_terms
-            exclusions = _load_term_groups(exclusions_path)
-
-            if len(exclusions) == len(base_terms):
-                counts.add_terms(exclusions, term_type='exclusions', dim='A')
-            else:
-                print(
-                    'Skipping exclusions because the number of entries does not match the '
-                    f'blue health factors ({len(exclusions)} vs {len(base_terms)}).'
-                )
-        factor_labels = _load_labels(Path(TERMS_DIR) / 'blue_health_factor_labels.txt')
-        counts.add_labels(factor_labels, dim='A')
+        counts.add_terms('blue_health_factors.txt', dim='A', directory=TERMS_DIR)
+        counts.add_terms('erps_exclude.txt', term_type='exclusions', dim='A', directory=TERMS_DIR)
+        counts.add_labels('blue_health_factor_labels.txt', dim='A', directory=TERMS_DIR)
         # Per a la dimensió B, carreguem el fitxer que correspon al valor de "label"
         if label != 'erp':
             secondary_terms = _load_term_groups(Path(TERMS_DIR) / f'{label}.txt')
             counts.add_terms(secondary_terms, dim='B')
     
     print('\n\nRUNNING COUNTS COLLECTION for:', label, '\n\n')
-
-    if not TEST:
-        try:
-            counts.run_collection(db='pubmed', api_key=api_key, logging=LOGGING, verbose=VERBOSE)
-        except RequestException as exc:
-            print(
-                '\nNetwork error while contacting PubMed. '
-                'Switching to offline mode and creating an empty counts structure.\n'
-            )
-            counts.counts = np.ones((counts.terms['A'].n_terms, counts.terms['B'].n_terms), dtype=int)
-            counts.terms['A'].counts = np.full(counts.terms['A'].n_terms, 200)
-            counts.terms['B'].counts = np.full(counts.terms['B'].n_terms, 200)
-            counts.meta_data = {'error': str(exc), 'note': 'Offline placeholder generated.'}
-    else:
-        counts.meta_data = {'note': 'Generated in BLUEHEALTH_TEST_MODE offline mode.'}
-
+    counts.run_collection(db='pubmed', api_key=api_key, logging=LOGGING, verbose=VERBOSE)
+    
     # Desa l'objecte counts a la nova carpeta ``./counts`` sense el prefix legacy ``data/``.
     save_object(counts, 'counts_' + label, directory=COUNTS_DIR)
     print('\n\nCOUNTS COLLECTION FINISHED for:', label, '\n\n')

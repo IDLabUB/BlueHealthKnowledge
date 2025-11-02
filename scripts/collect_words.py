@@ -1,4 +1,4 @@
-"""Script to run words collection for the BlueHealthKnowledge project."""
+# """Script to run words collection for the BlueHealthKnowledge project."""
 
 from pathlib import Path
 import os
@@ -65,25 +65,11 @@ def main():
         words.add_terms([['P100'], ['N100']])
         words.add_terms([['protein'], ['protein']], term_type='exclusions')
     else:
-        words.add_terms('blue_health_factors.txt', directory=str(TERMS_DIR))
-        exclusions_path = TERMS_DIR / 'erps_exclude.txt'
-        if exclusions_path.exists():
-            words.add_terms('erps_exclude.txt', term_type='exclusions', directory=str(TERMS_DIR))
-        words.add_labels('blue_health_factor_labels.txt', directory=str(TERMS_DIR))
+        words.add_terms('blue_health_factors.txt', directory=TERMS_DIR)
+        words.add_terms('erps_exclude.txt', term_type='exclusions', directory=TERMS_DIR)
+        words.add_labels('blue_health_factor_labels.txt', directory=TERMS_DIR)
 
-    print('\n\nRUNNING WORDS COLLECTION\n\n')
-
-    run_kwargs = dict(
-        db='pubmed',
-        retmax=RETMAX,
-        field=FIELD,
-        usehistory=True,
-        api_key=api_key,
-        save_and_clear=SAVE_N_CLEAR,
-        directory=db,
-        logging=LOGGING,
-        verbose=VERBOSE,
-    )
+    print('\n\nRUNNING WORDS COLLECTION')
 
     if TEST:
         run_kwargs.update({'usehistory': False, 'api_key': None})
