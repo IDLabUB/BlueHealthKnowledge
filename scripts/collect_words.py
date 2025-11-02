@@ -25,7 +25,7 @@ API_FILE = 'api_key.txt'
 
 # Set e-utils settings
 FIELD = 'TIAB'
-RETMAX = 10000
+RETMAX = int(os.environ.get('BLUEHEALTH_RETMAX', '10000'))
 
 # Set collection settings
 SAVE_N_CLEAR = True
