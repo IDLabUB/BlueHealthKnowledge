@@ -1,84 +1,111 @@
+#!/usr/bin/env python3
+from pathlib import Path
 from bs4 import XMLParsedAsHTMLWarning
 import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 """Script to run counts collection for BlueHealthKnowledge factors and associations."""
 
-from lisc import Counts
-from lisc.utils import save_object, load_api_key
-import os
+import os, re
 from typing import List
 from requests import RequestException
 import numpy as np
 
+from lisc import Counts
+from lisc.utils import save_object, load_api_key
+
 ###################################################################################################
-# Configuration settings
+# Paths i configuració
 
-# Set whether to run a test run
-TEST = os.environ.get('BLUEHEALTH_TEST_MODE', '0') == '1'
+# arrel del repo independentment del "working dir"
+REPO_ROOT  = Path(__file__).resolve().parent.parent
+TERMS_DIR  = REPO_ROOT / "terms"
+API_FILE   = REPO_ROOT / "api_key.txt"
 
-# Set locations / names for loading files
-TERMS_DIR = './terms/'
-API_FILE = 'api_key.txt'
-
-# Directory for saving counts outputs without the legacy ``data/`` prefix
-COUNTS_DIR = Path('./counts')
+# Carpeta per desar els resultats (sense el legacy data/)
+COUNTS_DIR = REPO_ROOT / "counts"
 COUNTS_DIR.mkdir(parents=True, exist_ok=True)
 
-# Print absolute path for debugging (example: blue_health_factors.txt)
-print(os.path.abspath(os.path.join(TERMS_DIR, 'blue_health_factors.txt')))
+# Mode prova (exporta BLUEHEALTH_TEST_MODE=1 per evitar crides a PubMed)
+TEST = os.environ.get('BLUEHEALTH_TEST_MODE', '0') == '1'
 
-# Set collection settings
+# Paràmetres de col·lecció
 LOGGING = None
 VERBOSE = True
 
-# In test mode, use a fixed label
-if TEST:
-    TEST_LABEL = 'test'
+# Debug ràpid
+print("Factors file:", (TERMS_DIR / 'blue_health_factors.txt').resolve())
 
 ###################################################################################################
-###################################################################################################
 
-def run_counts_collection(label, api_key):
+def _load_term_groups(path: Path) -> List[List[str]]:
     """
-    Run counts collection for a given secondary term label.
-    
-    For the primary terms (blue-health factors), it always loads the same files:
-      - 'blue_health_factors.txt' (terms in dimension A)
-      - 'erps_exclude.txt' (exclusion terms for dimension A)
-      - 'erp_labels.txt' (labels for dimension A)
-    
-    For the secondary terms (dimension B), it loads a file named according to the label,
-    for example 'blue_health_activities.txt' or 'blue_health_exposure_metrics.txt'.
+    Carrega grups de termes des d'un .txt.
+    - Cada línia és un grup de sinònims.
+    - Separadors permesos: coma, punt i coma, tub '|' o tab.
+    - Línies buides o amb '#' es descarten.
+    """
+    if not path.exists():
+        raise FileNotFoundError(f"No s'ha trobat el fitxer de termes: {path}")
+    groups: List[List[str]] = []
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = [p.strip() for p in re.split(r"[;,|\t]", line) if p.strip()]
+            if parts:
+                groups.append(parts)
+    if not groups:
+        raise ValueError(f"No s'han trobat termes a {path}")
+    return groups
+
+###################################################################################################
+
+def run_counts_collection(label: str, api_key: str):
+    """
+    Run counts collection per a un 'label' de la dimensió B.
+
+    Dimensió A (primària):
+      - blue_health_factors.txt
+      - erps_exclude.txt      (exclusions)
+      - blue_health_factor_labels.txt (labels)
+
+    Dimensió B (secundària):
+      - terms/{label}.txt
     """
     counts = Counts()
-    
+
     if TEST:
-        # Exemple de prova amb uns termes fixos
+        # Exemple mínim de prova
         counts.add_terms([['Antisocial attitudes'], ['Unemployment'], ['Impulsivity']], dim='A')
         counts.add_terms([['coastal residence'], ['contemplation of water']], dim='B')
     else:
-        counts.add_terms('blue_health_factors.txt', dim='A', directory=TERMS_DIR)
-        counts.add_terms('erps_exclude.txt', term_type='exclusions', dim='A', directory=TERMS_DIR)
-        counts.add_labels('blue_health_factor_labels.txt', dim='A', directory=TERMS_DIR)
-        # Per a la dimensió B, carreguem el fitxer que correspon al valor de "label"
+        counts.add_terms('blue_health_factors.txt', dim='A', directory=str(TERMS_DIR))
+        counts.add_terms('erps_exclude.txt', term_type='exclusions', dim='A', directory=str(TERMS_DIR))
+        counts.add_labels('blue_health_factor_labels.txt', dim='A', directory=str(TERMS_DIR))
+
         if label != 'erp':
-            secondary_terms = _load_term_groups(Path(TERMS_DIR) / f'{label}.txt')
+            secondary_terms = _load_term_groups(TERMS_DIR / f"{label}.txt")
             counts.add_terms(secondary_terms, dim='B')
-    
-    print('\n\nRUNNING COUNTS COLLECTION for:', label, '\n\n')
-    counts.run_collection(db='pubmed', api_key=api_key, logging=LOGGING, verbose=VERBOSE)
-    
-    # Desa l'objecte counts a la nova carpeta ``./counts`` sense el prefix legacy ``data/``.
-    save_object(counts, 'counts_' + label, directory=COUNTS_DIR)
-    print('\n\nCOUNTS COLLECTION FINISHED for:', label, '\n\n')
+
+    print(f"\n\nRUNNING COUNTS COLLECTION for: {label}\n")
+    try:
+        counts.run_collection(db='pubmed', api_key=api_key, logging=LOGGING, verbose=VERBOSE)
+    except RequestException as e:
+        raise SystemExit(f"[error] Request to PubMed failed: {e}")
+
+    # Desa l'objecte counts a ./counts
+    save_object(counts, f"counts_{label}", directory=str(COUNTS_DIR))
+    print(f"\nCOUNTS COLLECTION FINISHED for: {label}\n")
+
+###################################################################################################
 
 def main():
-    # Inicialitza la base de dades i carrega l'API key
-    api_key = load_api_key(API_FILE)
-    
-    # Defineix els labels per als quals vols executar la col·lecció.
-    # Executa la col·lecció per a totes les combinacions rellevants (activitats i mètriques d'exposició).
+    # Carrega API key (fitxer a l'arrel del repo)
+    api_key = load_api_key(str(API_FILE))
+
+    # Executa per a les dues dimensions B principals
     for label in ['blue_health_activities', 'blue_health_exposure_metrics']:
         run_counts_collection(label, api_key)
 
