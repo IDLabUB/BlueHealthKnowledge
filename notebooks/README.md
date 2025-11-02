@@ -1,33 +1,35 @@
-# Meta-Analysis Project Notebooks
+# BlueHealthKnowledge — Project Notebooks
 
-This folder contains the notebooks for the automatic meta-analysis project. The project focuses on risk and protective factors related to violence and recidivism.
+This folder contains the notebooks used to **automate evidence mapping for Blue Health**.  
+The project synthesizes literature on the associations between:
 
-The project uses automated literature extraction and text analysis techniques to summarize research on risk factors for different types of violence. These include physical, psychological, sexual, and neglect, as well as recidivism (general, sexual, and violent).
+- **Blue-health factors** (psychological, social, cognitive, and physiological outcomes), and
+- **Blue-environment exposures**, captured as **activities** (e.g., swimming, kayaking, sailing) and **exposure metrics** (e.g., distance to coast, viewshed, time near water).
 
-Below is a brief description of each notebook's purpose:
+Automated collection is performed with the `lisc` pipeline (PubMed e-utilities), and results are saved under `data/words/` and `counts/` (with figures in `counts/figures/...`). Terms and exclusions are defined in `./terms`.
 
-The following notebooks guide the data collection and analysis process:
+## Notebooks overview
 
 ### 00-Background
-
-This notebook provides an introductory analysis of the methods used in the literature and the evolution of research in this field.
+Introduces aims, data sources (PubMed), and the high-level workflow (terms → words → counts → analyses). Provides a quick exploratory overview of the Blue Health literature.
 
 ### 01-SearchTerms
-
-Defines search terms for identifying relevant studies on risk and protective factors.
+Defines and validates the **vocabularies**:
+- `blue_health_factors.txt` (outcomes),
+- `blue_health_activities.txt` and `blue_health_exposure_metrics.txt` (exposures),
+- paired **exclusions** files to avoid off-topic hits (e.g., acronym collisions).
 
 ### 02-WordsAnalyses
-
-Explores and analyzes textual data to identify trends in risk factors.
+Runs `collect_words` for factors (and optionally exposures), drops low-frequency components, and summarizes term usage. Produces word summaries and basic plots to inspect term quality.
 
 ### 03-WordsNetwork
+Builds a term network from words data (e.g., co-occurrence / cosine). Computes basic centrality metrics and visualizes communities to understand the structure of the Blue Health vocabulary.
 
-Builds a network of terms to understand relationships between risk factors.
-
-### 04-CountsViolence
-
-Analyzes the frequency of risk factors in literature on different types of violence.
-
-### 05-CountsRecidivism
-
-Analyzes the frequency of risk factors in literature on recidivism across different contexts.
+### 04-CountsActivities
+Analyzes **associations between blue-health factors and activities** using `counts_blue_health_activities.p`.  
+Steps:
+- Drop low-frequency items and normalize scores,
+- Export full score matrix to CSV,
+- Write JSONs with top associations (A→B and B→A),
+- Plot clustermap and dendrograms.  
+Outputs are saved under:
